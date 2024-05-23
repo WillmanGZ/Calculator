@@ -1,7 +1,7 @@
 package calculator;
 
 public class Operation {
-    
+
     private double number1;
     private double number2;
     private String operator;
@@ -18,5 +18,5 @@ public class Operation {
     public String toString() {
         return number1 + " " + operator + " " + number2 + " = " + result;
     }
-    
+
 }

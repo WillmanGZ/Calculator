@@ -6,14 +6,17 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class CalculatorFrame extends javax.swing.JFrame {
-    
+
     private History history;
+    private AddController addController;
 
     /**
      * Creates new form Calculator
      */
     public CalculatorFrame() {
         this.history = new History();
+        Calculator model = new Calculator();
+        addController = new AddController(model, this);
         initComponents();
     }
 
@@ -41,7 +44,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
         number2_label = new javax.swing.JLabel();
         result_label = new javax.swing.JLabel();
         operation_history_jscroll = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        history_list_jlist = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,9 +124,9 @@ public class CalculatorFrame extends javax.swing.JFrame {
         result_label.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         result_label.setText("Result");
 
-        jList1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jList1.setEnabled(false);
-        operation_history_jscroll.setViewportView(jList1);
+        history_list_jlist.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
+        history_list_jlist.setEnabled(false);
+        operation_history_jscroll.setViewportView(history_list_jlist);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,79 +205,73 @@ public class CalculatorFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Boton de suma
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
         // TODO add your handling code here:
-        try {
-            Calculator calculator = new Calculator();
-            
-            double number1 = Double.parseDouble(number1_textfield.getText());
-            double number2 = Double.parseDouble(number2_textfield.getText());
-            double result = calculator.add(number1, number2);
-            
-            this.history.addOperation(new Operation(number1, number2, "+", result));
-            
-            result_textfield.setText("" + result);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            addController.addOperation();
     }//GEN-LAST:event_add_buttonActionPerformed
 
+    //Boton de resta
     private void subtract_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subtract_buttonActionPerformed
         // TODO add your handling code here:
         try {
             Calculator calculator = new Calculator();
-            
+
             double number1 = Double.parseDouble(number1_textfield.getText());
             double number2 = Double.parseDouble(number2_textfield.getText());
             double result = calculator.subtract(number1, number2);
-            
+
             this.history.addOperation(new Operation(number1, number2, "-", result));
-            
+
             result_textfield.setText("" + result);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_subtract_buttonActionPerformed
 
+    //Boton de multiplicar
     private void multiply_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiply_buttonActionPerformed
         // TODO add your handling code here:
         try {
             Calculator calculator = new Calculator();
-            
+
             double number1 = Double.parseDouble(number1_textfield.getText());
             double number2 = Double.parseDouble(number2_textfield.getText());
             double result = calculator.multiply(number1, number2);
-            
+
             this.history.addOperation(new Operation(number1, number2, "*", result));
-            
+
             result_textfield.setText("" + result);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_multiply_buttonActionPerformed
 
+    //Boton de dividir
     private void divide_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divide_buttonActionPerformed
         // TODO add your handling code here:
         try {
             Calculator calculator = new Calculator();
-            
+
             double number1 = Double.parseDouble(number1_textfield.getText());
             double number2 = Double.parseDouble(number2_textfield.getText());
             double result = calculator.divide(number1, number2);
-            
+
             this.history.addOperation(new Operation(number1, number2, "/", result));
-            
+
             result_textfield.setText("" + result);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_divide_buttonActionPerformed
 
+    //Boton de potencia
     private void potency_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potency_buttonActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Not Implemented", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_potency_buttonActionPerformed
 
+    //Boton pa borrar los numeros
     private void clear_numbers_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clear_numbers_buttonActionPerformed
         // TODO add your handling code here:
         number1_textfield.setText("");
@@ -282,15 +279,53 @@ public class CalculatorFrame extends javax.swing.JFrame {
         result_textfield.setText("");
     }//GEN-LAST:event_clear_numbers_buttonActionPerformed
 
+    //Boton para actualizar el historial
     private void update_history_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_history_buttonActionPerformed
         // TODO add your handling code here:
         ArrayList<Operation> operationHistory = this.history.getOperations();
         Collections.reverse(this.history.getOperations());
-        
+
         DefaultListModel model = new DefaultListModel();
         model.addAll(operationHistory);
-        jList1.setModel(model);
+        history_list_jlist.setModel(model);
     }//GEN-LAST:event_update_history_buttonActionPerformed
+
+    //Obtener el numero del primer text field
+    public String getNumber1() {
+        return number1_textfield.getText();
+    }
+
+    //Obtener el numero del segundo text field
+    public String getNumber2() {
+        return number2_textfield.getText();
+    }
+
+    //Cambia el texto del label del resultado
+    public void setResult(String result) {
+        result_textfield.setText("" + result);
+    }
+
+    public void addHistory(Operation operation) {
+        this.history.addOperation(operation);
+    }
+
+    public void showErrorMessage(int error) {
+        switch (error) {
+            case 1: //Hay mas de 3 cifras decimales
+                JOptionPane.showMessageDialog(null, "Los números digitados no deben contener mas de 3 dígitos decimales", "Error", JOptionPane.ERROR_MESSAGE);
+                break;
+            case 2: //Numeros vacios
+                JOptionPane.showMessageDialog(null, "Debe dígitar 2 números", "Error", JOptionPane.ERROR_MESSAGE);
+                break;
+            case 3: //Hay algo que no sea numero
+                JOptionPane.showMessageDialog(null, "Debe digitar solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                break;
+            case 4:
+                JOptionPane.showMessageDialog(null, "Los números dígitados no deben superar los 3 dígitos", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+        result_textfield.setText("");
+    }
 
     /**
      * @param args the command line arguments
@@ -333,7 +368,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
     private javax.swing.JLabel calculator_title;
     private javax.swing.JButton clear_numbers_button;
     private javax.swing.JButton divide_button;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> history_list_jlist;
     private javax.swing.JButton multiply_button;
     private javax.swing.JLabel number1_label;
     private javax.swing.JTextField number1_textfield;
