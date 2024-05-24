@@ -9,14 +9,21 @@ public class CalculatorFrame extends javax.swing.JFrame {
 
     private History history;
     private AddController addController;
+    private SubtractController subtractController;
+    private MultiplyController multiplyController;
+    private DivideController divideController;
+    private PotencyController potencyController;
+    private HistoryController historyController;
 
-    /**
-     * Creates new form Calculator
-     */
     public CalculatorFrame() {
         this.history = new History();
         Calculator model = new Calculator();
         addController = new AddController(model, this);
+        subtractController = new SubtractController(model, this);
+        multiplyController = new MultiplyController(model, this);
+        divideController = new DivideController(model, this);
+        potencyController = new PotencyController(model, this);
+        historyController = new HistoryController(model, this);
         initComponents();
     }
 
@@ -208,67 +215,31 @@ public class CalculatorFrame extends javax.swing.JFrame {
     //Boton de suma
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
         // TODO add your handling code here:
-            addController.addOperation();
+        addController.addOperation();
     }//GEN-LAST:event_add_buttonActionPerformed
 
     //Boton de resta
     private void subtract_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subtract_buttonActionPerformed
         // TODO add your handling code here:
-        try {
-            Calculator calculator = new Calculator();
-
-            double number1 = Double.parseDouble(number1_textfield.getText());
-            double number2 = Double.parseDouble(number2_textfield.getText());
-            double result = calculator.subtract(number1, number2);
-
-            this.history.addOperation(new Operation(number1, number2, "-", result));
-
-            result_textfield.setText("" + result);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        subtractController.subtractOperation();
     }//GEN-LAST:event_subtract_buttonActionPerformed
 
     //Boton de multiplicar
     private void multiply_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiply_buttonActionPerformed
         // TODO add your handling code here:
-        try {
-            Calculator calculator = new Calculator();
-
-            double number1 = Double.parseDouble(number1_textfield.getText());
-            double number2 = Double.parseDouble(number2_textfield.getText());
-            double result = calculator.multiply(number1, number2);
-
-            this.history.addOperation(new Operation(number1, number2, "*", result));
-
-            result_textfield.setText("" + result);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        multiplyController.multiplyOperation();
     }//GEN-LAST:event_multiply_buttonActionPerformed
 
     //Boton de dividir
     private void divide_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divide_buttonActionPerformed
         // TODO add your handling code here:
-        try {
-            Calculator calculator = new Calculator();
-
-            double number1 = Double.parseDouble(number1_textfield.getText());
-            double number2 = Double.parseDouble(number2_textfield.getText());
-            double result = calculator.divide(number1, number2);
-
-            this.history.addOperation(new Operation(number1, number2, "/", result));
-
-            result_textfield.setText("" + result);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        divideController.divideOperation();
     }//GEN-LAST:event_divide_buttonActionPerformed
 
     //Boton de potencia
     private void potency_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potency_buttonActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Not Implemented", "Error", JOptionPane.ERROR_MESSAGE);
+        potencyController.potencyOperation();
     }//GEN-LAST:event_potency_buttonActionPerformed
 
     //Boton pa borrar los numeros
@@ -282,12 +253,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
     //Boton para actualizar el historial
     private void update_history_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_history_buttonActionPerformed
         // TODO add your handling code here:
-        ArrayList<Operation> operationHistory = this.history.getOperations();
-        Collections.reverse(this.history.getOperations());
-
-        DefaultListModel model = new DefaultListModel();
-        model.addAll(operationHistory);
-        history_list_jlist.setModel(model);
+        historyController.updateHistory();
     }//GEN-LAST:event_update_history_buttonActionPerformed
 
     //Obtener el numero del primer text field
@@ -304,9 +270,20 @@ public class CalculatorFrame extends javax.swing.JFrame {
     public void setResult(String result) {
         result_textfield.setText("" + result);
     }
-
+    
+    //Añade las operaciones al historial
     public void addHistory(Operation operation) {
         this.history.addOperation(operation);
+    }
+    
+    //Retorna el historial
+    public History getHistory() {
+        return this.history;
+    }
+    
+    //Establece el modelo de la lista del historial
+    public void setHistoryModel(DefaultListModel model){
+        this.history_list_jlist.setModel(model);
     }
 
     public void showErrorMessage(int error) {
@@ -327,41 +304,6 @@ public class CalculatorFrame extends javax.swing.JFrame {
         result_textfield.setText("");
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CalculatorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CalculatorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CalculatorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalculatorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CalculatorFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;

@@ -17,5 +17,9 @@ public class Calculator {
     public double divide(double a, double b) {
         return a / b;
     }
+    
+    public double potency(double a, double b){
+        return Math.pow(a, b);
+    }
 
 }

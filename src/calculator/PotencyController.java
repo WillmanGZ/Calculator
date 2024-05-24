@@ -3,18 +3,18 @@ package calculator;
 import static calculator.Decimals.checkDecimalPlaces;
 import static calculator.Decimals.toThreeDecimals;
 
-public class AddController {
+public class PotencyController {
 
     private Calculator model;
     private CalculatorFrame view;
 
-    public AddController(Calculator model, CalculatorFrame view) {
+    public PotencyController(Calculator model, CalculatorFrame view) {
         this.model = model;
         this.view = view;
     }
 
-    //Metodo para sumar
-    public void addOperation() {
+    //Metodo para potencias
+    public void potencyOperation() {
 
         //Try en caso de que pongan algo que no sea un numero
         try {
@@ -42,10 +42,10 @@ public class AddController {
                         double num1 = Double.parseDouble(field1);
                         double num2 = Double.parseDouble(field2);
 
-                        double result = toThreeDecimals(model.add(num1, num2)); //Suma los numeros, luego formatea para maximo 3 digitos decimales y luego lo pasa a double
+                        double result = toThreeDecimals(model.potency(num1, num2)); //Suma los numeros, luego formatea para maximo 3 digitos decimales y luego lo pasa a double
 
                         view.setResult(String.valueOf(result)); //Cambia el label del resultado en el view
-                        view.addHistory(new Operation(num1, num2, "+", result)); //Añade la operacion al historial del view
+                        view.addHistory(new Operation(num1, num2, "^", result)); //Añade la operacion al historial del view
 
                     } else {  //Hay mas de 3 cifras decimales
                         view.showErrorMessage(1);
