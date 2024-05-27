@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/Operation.java</file>
             <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/CalculatorFrame.java</file>
-            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/AddController.java</file>
-            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/Main.java</file>
-            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/Calculator.java</file>
+            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/MultiplyController.java</file>
+            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/HistoryController.java</file>
+            <file>file:/C:/Users/Darling%20Zambrano/Desktop/POO%20P3/Calculator/src/calculator/History.java</file>
         </group>
     </open-files>
 </project-private>

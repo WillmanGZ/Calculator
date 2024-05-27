@@ -1,9 +1,9 @@
-package calculator;
+package calculator.Model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Decimals {
+public class DecimalsModel {
     //Metodo para verificar si el numero ingresado tiene mas de 3 cifras decimales
     public static boolean checkDecimalPlaces(String numberString) {
         int decimalIndex = numberString.indexOf('.');

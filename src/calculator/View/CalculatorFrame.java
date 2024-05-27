@@ -1,13 +1,24 @@
-package calculator;
+package calculator.View;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import calculator.Controller.AddController;
+import calculator.Controller.DivideController;
+import calculator.Model.HistoryModel;
+import calculator.Controller.HistoryController;
+import calculator.Model.SubtractModel;
+import calculator.Model.PotencyModel;
+import calculator.Model.MultiplyModel;
+import calculator.Model.DivideModel;
+import calculator.Model.AddModel;
+import calculator.Controller.MultiplyController;
+import calculator.Model.OperationModel;
+import calculator.Controller.PotencyController;
+import calculator.Controller.SubtractController;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class CalculatorFrame extends javax.swing.JFrame {
 
-    private History history;
+    private HistoryModel history;
     private AddController addController;
     private SubtractController subtractController;
     private MultiplyController multiplyController;
@@ -16,14 +27,18 @@ public class CalculatorFrame extends javax.swing.JFrame {
     private HistoryController historyController;
 
     public CalculatorFrame() {
-        this.history = new History();
-        Calculator model = new Calculator();
-        addController = new AddController(model, this);
-        subtractController = new SubtractController(model, this);
-        multiplyController = new MultiplyController(model, this);
-        divideController = new DivideController(model, this);
-        potencyController = new PotencyController(model, this);
-        historyController = new HistoryController(model, this);
+        this.history = new HistoryModel();
+        AddModel addmodel = new AddModel();
+        SubtractModel subtractmodel = new SubtractModel();
+        MultiplyModel multiplymodel = new MultiplyModel();
+        DivideModel dividemodel = new DivideModel();
+        PotencyModel potencymodel = new PotencyModel();
+        addController = new AddController(addmodel, this);
+        subtractController = new SubtractController(subtractmodel, this);
+        multiplyController = new MultiplyController(multiplymodel, this);
+        divideController = new DivideController(dividemodel, this);
+        potencyController = new PotencyController(potencymodel, this);
+        historyController = new HistoryController(this);
         initComponents();
     }
 
@@ -272,12 +287,12 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }
     
     //Añade las operaciones al historial
-    public void addHistory(Operation operation) {
+    public void addHistory(OperationModel operation) {
         this.history.addOperation(operation);
     }
     
     //Retorna el historial
-    public History getHistory() {
+    public HistoryModel getHistory() {
         return this.history;
     }
     
@@ -297,9 +312,6 @@ public class CalculatorFrame extends javax.swing.JFrame {
             case 3: //Hay algo que no sea numero
                 JOptionPane.showMessageDialog(null, "Debe digitar solo números", "Error", JOptionPane.ERROR_MESSAGE);
                 break;
-            case 4:
-                JOptionPane.showMessageDialog(null, "Los números dígitados no deben superar los 3 dígitos", "Error", JOptionPane.ERROR_MESSAGE);
-
         }
         result_textfield.setText("");
     }
